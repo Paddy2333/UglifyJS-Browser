@@ -22,9 +22,9 @@ jobs:
       run: npm install uglify-js -g
     - name: Build
       run: uglifyjs --self -c -m -o dist/uglifyjs.js
-    - name: Upload to GitHub Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: dist/uglifyjs.js
-      env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+    - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        env: GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          files: dist/uglifyjs.js
