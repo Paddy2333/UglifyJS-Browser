@@ -19,7 +19,7 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
     - name: Install Uglify
-      run: npm install uglify-js
+      run: npm install uglify-js -g
     - name: Build
       run: uglifyjs --self -c -m -o dist/uglifyjs.js
     - name: Upload to GitHub Release
