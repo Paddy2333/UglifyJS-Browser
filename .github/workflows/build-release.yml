@@ -1,0 +1,30 @@
+name: Build
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+env:
+  NODE_VERSION: '19.x'
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    - name: Install Uglify
+      run: npm install uglify-js
+    - name: Build
+      run: uglifyjs --self -c -m -o dist/uglifyjs.js
+    - name: Upload to GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: dist/uglifyjs.js
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
